@@ -17,15 +17,21 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        updateText(viewModel.total)
-
-        findViewById<Button>(R.id.button_increment).setOnClickListener {
-            updateText(viewModel.incrementTotal())
-        }
+        prepareViewModel()
     }
 
     private fun updateText(total: Int) {
         findViewById<TextView>(R.id.text_total).text =
             getString(R.string.text_total, total)
+    }
+
+    private fun prepareViewModel() {
+        viewModel.total.observe(this) { total ->
+            updateText(total)
+        }
+
+        findViewById<Button>(R.id.button_increment).setOnClickListener {
+            viewModel.incrementTotal()
+        }
     }
 }
